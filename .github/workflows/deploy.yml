@@ -1,0 +1,19 @@
+name: Sync to Hugging Face Space
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: pip install huggingface_hub
+      - name: Push to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.DEPLOYHF }}
+        run: |
+          huggingface-cli login --token "$DEPLOYHF"
+          git push --force https://huggingface.co/spaces/vel740/dev-konsumsi-listrik
