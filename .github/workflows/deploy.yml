@@ -1,19 +1,35 @@
-name: Sync to Hugging Face Space
+name: Deploy to Hugging Face Space
 
 on:
   push:
-    branches: [main]
+    branches: 
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: pip install huggingface_hub
-      - name: Push to Hugging Face
-        env:
-          HF_TOKEN: ${{ secrets.DEPLOYHF }}
-        run: |
-          huggingface-cli login --token "$DEPLOYHF"
-          git push --force https://huggingface.co/spaces/vel740/dev-konsumsi-listrik
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install Hugging Face Hub
+      run: |
+        pip install huggingface_hub
+
+    - name: Login to Hugging Face
+      env:
+        HF_TOKEN: ${{ secrets.DEPLOYHF }}
+      run: |
+        huggingface-cli login --token "$DEPLOYHF" --add-to-git-credential
+
+    - name: Push to Hugging Face Space
+      run: |
+        git config --global user.email "12345678+yuu740@users.noreply.github.com"
+        git config --global user.name "Revel"
+        git remote set-url origin https://huggingface.co/spaces/vel740/dev-konsumsi-listrik
+        git push origin master --force
