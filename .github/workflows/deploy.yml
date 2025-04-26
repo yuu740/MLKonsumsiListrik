@@ -1,35 +1,35 @@
-name: Deploy to Hugging Face Space
+name: CI/CD to Hugging Face Space
 
 on:
   push:
-    branches: 
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run some tests
+        run: echo "Running tests..."
+
   deploy:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
-
-    - name: Install Hugging Face Hub
-      run: |
-        pip install huggingface_hub
-
-    - name: Login to Hugging Face
-      env:
-        HF_TOKEN: ${{ secrets.DEPLOYHF }}
-      run: |
-        huggingface-cli login --token "$DEPLOYHF" --add-to-git-credential
-
-    - name: Push to Hugging Face Space
-      run: |
-        git config --global user.email "12345678+yuu740@users.noreply.github.com"
-        git config --global user.name "Revel"
-        git remote set-url origin https://huggingface.co/spaces/vel740/dev-konsumsi-listrik
-        git push origin master --force
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Add remote HuggingFace Space
+        env:
+          DEPLOYHF: ${{ secrets.DEPLOYHF }}
+        run: |
+          git remote add space https://user:${DEPLOYHF}@huggingface.co/spaces/vel740/dev-konsumsi-listrik
+      - name: Push to HuggingFace Space
+        env:
+          DEPLOYHF: ${{ secrets.DEPLOYHF }}
+        run: |
+          git push --force space main
