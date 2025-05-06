@@ -5,7 +5,7 @@ from sklearn.cluster import DBSCAN
 import matplotlib.pyplot as plt
 
 
-data = pd.read_csv('../DATASET/Hasil_Gabungan.csv')
+data = pd.read_csv('Hasil_Gabungan.csv')
 
 
 features = ['Residential_2021', 'Business_2021', 'Industrial_2021', 'Social_2021', 'Gov_Office_2021', 'Pub_Street_2021', 'Total_2021', 'JP_2021', 'KP_2021']
