@@ -1,4 +1,4 @@
 from components import build_interface
 
 demo = build_interface()
-demo.launch()
+demo.launch(inbrowser=True, share=False)
