@@ -7,6 +7,7 @@ import fastapi
 from fastapi.staticfiles import StaticFiles
 from gradio.routes import mount_gradio_app
 import uvicorn
+from branca.element import Figure
 
 STATIC_PATH = "./static_maps"
 
@@ -73,11 +74,15 @@ def show_results(year):
 
     # os.remove(tmp.name) 
     
-    map_filename = f"cluster_map_{year}.html"
-    map_filepath = os.path.join(STATIC_PATH, map_filename)
-    m.save(map_filepath)
+    # map_filename = f"cluster_map_{year}.html"
+    # map_filepath = os.path.join(STATIC_PATH, map_filename)
+    # m.save(map_filepath)
     
-    map_html = f'<iframe src="/file/{map_filename}" width="100%" height="600px" frameborder="0"></iframe>'
+    # map_html = f'<iframe src="/file/{map_filename}" width="100%" height="600px" frameborder="0"></iframe>'
+
+    fig = Figure()
+    fig.add_child(m)
+    map_html = fig.render()
 
     return output_text, map_html
     # return output_text, map_html
