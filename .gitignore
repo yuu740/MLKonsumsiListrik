@@ -1,0 +1,17 @@
+# Python cache and compilation files
+__pycache__/
+*.pyc
+
+# Generated output directories/files
+static_maps/
+map.html
+
+# Jupyter Notebooks (if not part of the deployed app functionality)
+*.ipynb
+
+# Example: If you have a virtual environment folder named 'venv'
+venv/
+.venv/
+
+# Environment variables (if you use .env files for local secrets)
+.env
