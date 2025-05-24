@@ -1,6 +1,8 @@
 gradio
 pandas
 scikit-learn
-matplotlib
-leafmap
 geopandas
+folium
+branca
+fastapi
+uvicorn[standard]
