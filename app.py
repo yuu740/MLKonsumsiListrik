@@ -19,6 +19,9 @@ os.makedirs(STATIC_MAPS_DIR, exist_ok=True)
 # Files in STATIC_MAPS_DIR will be accessible via /maps/
 app.mount("/maps", StaticFiles(directory=STATIC_MAPS_DIR), name="static_maps")
 
+def hello_world():
+    return "Hello from Gradio!"
+
 # --- Mount the Gradio app ---
 # Build the Gradio interface
 demo = build_interface()
