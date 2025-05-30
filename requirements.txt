@@ -5,4 +5,4 @@ geopandas
 folium
 branca
 fastapi
-uvicorn
+uvicorn[standard]
