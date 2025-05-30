@@ -1,8 +1,8 @@
-gradio
+gradio==3.39.0
+fastapi==0.95.1
+uvicorn==0.22.0
 pandas
 scikit-learn
 geopandas
 folium
 branca
-fastapi
-uvicorn[standard]
