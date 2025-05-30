@@ -12,6 +12,8 @@ base_app = FastAPI()
 base_app.mount("/maps", StaticFiles(directory="maps"), name="maps")
 
 gradio_app = build_interface()
+print("Build interface success")
+print("Building gradio app...")
 app = mount_gradio_app(base_app, gradio_app, path="/")
 
 @app.get("/")
