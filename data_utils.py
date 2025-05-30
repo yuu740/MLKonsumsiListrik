@@ -1,21 +1,30 @@
-# data_utils.py
+# data_utils.py (versi refactor)
 import pandas as pd
 import geopandas as gpd
 from sklearn.preprocessing import RobustScaler
 from sklearn.cluster import DBSCAN
+from functools import lru_cache
 
-# Global cache
-data = pd.read_csv("Hasil_Gabungan.csv")
-geo = gpd.read_file("id.json")
-geo['name'] = geo['name'].replace({
+province_name_map = {
     'Jakarta Raya': 'DKI Jakarta',
     'Kepulauan Riau': 'Kep. Riau',
     'Yogyakarta': 'DI Yogyakarta',
     'Bangka-Belitung': 'Kep. Bangka Belitung',
     'North Kalimantan': 'Kalimantan Utara'
-})
+}
+
+@lru_cache(maxsize=1)
+def load_data():
+    return pd.read_csv("Hasil_Gabungan.csv")
+
+@lru_cache(maxsize=1)
+def load_geo():
+    geo = gpd.read_file("id.json")
+    geo['name'] = geo['name'].replace(province_name_map)
+    return geo
 
 def get_cluster_result(eps: float, min_samples: int):
+    data = load_data()
     features = [
         'Residential_2021', 'Business_2021', 'Industrial_2021', 'Social_2021',
         'Gov_Office_2021', 'Pub_Street_2021', 'Total_2021', 'JP_2021', 'KP_2021',
@@ -35,4 +44,5 @@ def get_cluster_result(eps: float, min_samples: int):
     return result
 
 def get_geojson_with_cluster(clustered_data: pd.DataFrame):
+    geo = load_geo()
     return geo.merge(clustered_data, left_on="name", right_on="Province")

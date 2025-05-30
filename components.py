@@ -3,7 +3,13 @@ import os
 import gradio as gr
 import folium
 import tempfile
+import time
+import logging
 from data_utils import get_cluster_result, get_geojson_with_cluster
+
+logger = logging.getLogger("components")
+logging.basicConfig(level=logging.INFO)
+
 
 cluster_colors = {
     -1: '#8c8c8c',
@@ -15,14 +21,12 @@ cluster_colors = {
     5: '#b15928',
     6: '#a6cee3',
     7: '#b2df8a',
-    8: '#fb9a99'
 }
-
 def create_map_html(geojson_df):
     m = folium.Map(location=[-2.5, 118], zoom_start=5)
 
     def style_function(feature):
-        cluster = feature['properties']['Cluster']
+        cluster = feature['properties'].get('Cluster', -1)
         return {
             'fillColor': cluster_colors.get(cluster, '#000000'),
             'color': 'black',
@@ -30,13 +34,16 @@ def create_map_html(geojson_df):
             'fillOpacity': 0.7,
         }
 
+    # Ambil hanya kolom yang dibutuhkan
+    gjson = geojson_df[['geometry', 'Cluster']]
     folium.GeoJson(
-        geojson_df,
-        style_function=style_function,
-        tooltip=folium.GeoJsonTooltip(fields=['name', 'Cluster'], aliases=['Provinsi', 'Cluster'])
+        gjson,
+        style_function=style_function
     ).add_to(m)
 
-    return m._repr_html_()
+    map_path = "maps/cluster_map.html"
+    m.save(map_path)
+    return f'<iframe src="/maps/cluster_map.html" width="100%" height="500"></iframe>'
 
 
 def get_cluster_summary(clustered_df):
@@ -48,10 +55,25 @@ def get_cluster_summary(clustered_df):
     return text
 
 def cluster_and_map(eps, min_samples):
+    start_total = time.time()
+    
+    logger.info(f"[Input] eps={eps}, min_samples={min_samples}")
+
+    start = time.time()
     clustered = get_cluster_result(eps, min_samples)
+    logger.info(f"[Profiling] Clustering took {time.time() - start:.2f}s")
+
+    start = time.time()
     geojson_df = get_geojson_with_cluster(clustered)
+    logger.info(f"[Profiling] GeoJSON merge took {time.time() - start:.2f}s")
+    
+    start = time.time()
     html_map = create_map_html(geojson_df)
+    logger.info(f"[Profiling] Map creation took {time.time() - start:.2f}s")
+
     summary = get_cluster_summary(clustered)
+    logger.info(f"[Profiling] Total cluster_and_map took {time.time() - start_total:.2f}s")
+
     return clustered[['Province', 'Cluster']], html_map, summary
 
 def build_interface():
@@ -65,10 +87,12 @@ def build_interface():
         output_text = gr.Markdown()
 
         btn = gr.Button("Jalankan Clustering")
+        print("Button Clicked")
+        print("processing")
         btn.click(
             cluster_and_map,
             inputs=[eps, min_samples],
             outputs=[output_table, output_map, output_text]
         )
-
+    demo.queue(False) 
     return demo
