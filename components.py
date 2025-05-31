@@ -141,6 +141,6 @@ def build_interface():
             inputs=[eps, min_samples],
             outputs=[output_table, output_map, output_text]
         )
-    demo.queue(False)
+    demo.queue(True)
     return demo
 
