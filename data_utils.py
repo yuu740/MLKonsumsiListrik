@@ -1,4 +1,4 @@
-# data_utils.py (versi refactor)
+# data_utils.py 
 import pandas as pd
 import geopandas as gpd
 from sklearn.preprocessing import RobustScaler
