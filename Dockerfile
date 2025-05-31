@@ -10,5 +10,6 @@ RUN pip install -r requirements.txt
 
 
 # CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860", "--log-level", "debug"]
-CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7862", "--log-level", "info"]
+# CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7862", "--log-level", "info"]
+CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860", "--log-level", "info"]
 
