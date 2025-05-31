@@ -12,8 +12,6 @@ logger = logging.getLogger("components")
 if not logger.handlers:
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-
-
 cluster_colors = {
     -1: '#8c8c8c',
     0: '#1f78b4',
@@ -25,6 +23,7 @@ cluster_colors = {
     6: '#a6cee3',
     7: '#b2df8a',
 }
+
 def create_map_html(geojson_df: pd.DataFrame):
     if geojson_df.empty:
         logger.warning("Input geojson_df is empty, cannot create map.")
@@ -114,11 +113,11 @@ def build_interface():
     with gr.Blocks() as demo:
         gr.Markdown("## DBSCAN Clustering Seluruh Fitur Listrik Provinsi Indonesia")
         with gr.Row():
-            with gr.Column():
-                eps = gr.Slider(1.0, 10.0, value=6.0, step=0.1, label="Nilai eps (Radius pencarian titik data)")
-                min_samples = gr.Slider(1, 30, value=16, step=1, label="Nilai min_samples (Jumlah minimum sampel dalam radius)")
+            with gr.Column(scale=1):
+                eps = gr.Slider(1.0, 10.0, value=6.0, step=0.1, label="Nilai eps (Radius pencarian titik data)", min_width=300)
+                min_samples = gr.Slider(1, 30, value=16, step=1, label="Nilai min_samples (Jumlah minimum sampel dalam radius)", min_width=300)
                 btn = gr.Button("Jalankan Clustering")
-            with gr.Column():
+            with gr.Column(scale=2):
                 gr.Markdown(
                     """
                     **Penjelasan Parameter DBSCAN:**
