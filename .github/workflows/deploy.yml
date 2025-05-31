@@ -12,22 +12,24 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v3
-      - name: Run basic tests
+      - uses: actions/checkout@v2
+      - name: Run some tests
         run: echo "Running tests..."
 
   deploy:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Add remote Hugging Face Space
+      - name: Add remote HuggingFace Space
         env:
           DEPLOYHF: ${{ secrets.DEPLOYHF }}
         run: |
-          git remote add space https://vel740:${DEPLOYHF}@huggingface.co/spaces/vel740/mlkonsumsilistrikv1.1
-      - name: Push to Hugging Face Space
+          git remote add space https://user:${DEPLOYHF}@huggingface.co/spaces/vel740/dev-konsumsi-listrik
+      - name: Push to HuggingFace Space
+        env:
+          DEPLOYHF: ${{ secrets.DEPLOYHF }}
         run: |
-          git push space main --force
+          git push --force space main
