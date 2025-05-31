@@ -11,9 +11,10 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("app")
 
+app = FastAPI()
+
 os.makedirs("maps", exist_ok=True)
 logger.info(" 'maps' directory ensured to exist.")
-app = FastAPI()
 
 app.mount("/maps", StaticFiles(directory="maps"), name="maps")
 logger.info("'/maps' static directory mounted.")
