@@ -21,14 +21,8 @@ logger.info("'/maps' static directory mounted.")
 gradio_app = build_interface()
 logger.info("Gradio interface built successfully.")
 
-app = mount_gradio_app(app, gradio_app, path="/gradio")
-logger.info("Gradio app mounted at '/gradio'.")
-
-@app.get("/")
-async def root():
-    """Root endpoint to redirect users to the Gradio interface."""
-    logger.info("Root endpoint accessed. Redirecting to /gradio.")
-    return {"message": "Akses antarmuka clustering di /gradio"}
+app = mount_gradio_app(app, gradio_app, path="/")
+logger.info("Gradio app mounted at '/'.")
 
 if __name__ == "__main__":
     logger.info("Starting Uvicorn server...")
