@@ -114,8 +114,8 @@ def build_interface():
         gr.Markdown("## DBSCAN Clustering Seluruh Fitur Listrik Provinsi Indonesia")
         with gr.Row():
             with gr.Column(scale=1):
-                eps = gr.Slider(1.0, 10.0, value=6.0, step=0.1, label="Nilai eps (Radius pencarian titik data)", min_width=300)
-                min_samples = gr.Slider(1, 30, value=16, step=1, label="Nilai min_samples (Jumlah minimum sampel dalam radius)", min_width=300)
+                eps = gr.Slider(1.0, 10.0, value=6.0, step=0.1, label="Nilai eps", min_width=300)
+                min_samples = gr.Slider(1, 30, value=16, step=1, label="Nilai min_samples", min_width=300)
                 btn = gr.Button("Jalankan Clustering")
             with gr.Column(scale=2):
                 gr.Markdown(
