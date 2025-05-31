@@ -120,11 +120,13 @@ def build_interface():
             with gr.Column(scale=2):
                 gr.Markdown(
                     """
-                    **Penjelasan Parameter DBSCAN:**
-                    - **`eps`**: Jarak maksimum antara dua sampel agar dianggap berada di lingkungan yang sama.
-                      Nilai yang lebih kecil berarti cluster akan lebih padat.
-                    - **`min_samples`**: Jumlah sampel (atau total bobot) dalam lingkungan suatu titik agar titik tersebut dianggap sebagai *core point*.
-                      Nilai yang lebih tinggi berarti cluster akan membutuhkan lebih banyak titik untuk terbentuk.
+                    ### Penjelasan Sederhana Parameter DBSCAN
+
+                    | Parameter     | Ibarat                                      | Fungsi dalam distribusi listrik                                               |
+                    |---------------|----------------------------------------------|--------------------------------------------------------------------------------|
+                    | `eps`         | Radius jarak antar wilayah                   | Menentukan siapa tetangga yang bisa dianggap saling butuh bantuan distribusi |
+                    | `min_samples` | Minimal jumlah wilayah dalam satu kelompok  | Menentukan kapan wilayah layak dianggap perlu pendekatan bersama             |
+
                     """
                 )
 
