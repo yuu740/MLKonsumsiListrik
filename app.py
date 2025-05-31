@@ -21,7 +21,7 @@ logger.info("'/maps' static directory mounted.")
 gradio_app = build_interface()
 logger.info("Gradio interface built successfully.")
 
-app = mount_gradio_app(app, gradio_app, path="/")
+app = mount_gradio_app(app, gradio_app, path="")
 logger.info("Gradio app mounted at '/'.")
 
 if __name__ == "__main__":
