@@ -11,9 +11,10 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("app")
 
+app = FastAPI()
+
 os.makedirs("maps", exist_ok=True)
 logger.info(" 'maps' directory ensured to exist.")
-app = FastAPI()
 
 app.mount("/maps", StaticFiles(directory="maps"), name="maps")
 logger.info("'/maps' static directory mounted.")
@@ -21,7 +22,7 @@ logger.info("'/maps' static directory mounted.")
 gradio_app = build_interface()
 logger.info("Gradio interface built successfully.")
 
-app = mount_gradio_app(app, gradio_app, path="/")
+app = mount_gradio_app(app, gradio_app, path="")
 logger.info("Gradio app mounted at '/'.")
 
 if __name__ == "__main__":
