@@ -26,4 +26,4 @@ logger.info("Gradio app mounted at '/'.")
 
 if __name__ == "__main__":
     logger.info("Starting Uvicorn server...")
-    uvicorn.run("app:app", host="0.0.0.0", port=7860) 
+    uvicorn.run("app:app", host="0.0.0.0", port=7862) 
